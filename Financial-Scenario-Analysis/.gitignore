@@ -1,0 +1,18 @@
+# Build/output files
+*.exe
+*.out
+*.o
+*.obj
+build/
+bin/
+
+# VS Code
+.vscode/
+
+# Generated performance results
+results/*.csv
+results/graphs/
+
+# OS files
+.DS_Store
+Thumbs.db
