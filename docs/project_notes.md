@@ -1,6 +1,6 @@
 # Project Notes - Q19 Financial Scenario Analysis
 
-Status: DRAFT v1 - awaiting approval from all 4 team members.
+Status: DRAFT v2 - sequential version implemented; awaiting approval from all 4 team members.
 
 ## 1. Problem (official)
 
@@ -64,51 +64,85 @@ mean_real_final = P * ((1+r)/(1+infl))^T.
 
 ## 6. Sequential algorithm
 
-    generate N scenarios from seed
+    generate N scenarios from seed          (not timed)
+    validate every scenario                 (not timed)
     start timer
     for i = 0 .. N-1:
-        results[i] = evaluate_scenario(scenarios[i], M)
+        results[i] = evaluate_scenario(scenarios[i], M, seed)
     stop timer
-    count scenarios per class
-    print summary
+    count scenarios per class, print summary
 
-evaluate_scenario(s, M):
-    create a random generator seeded with (base_seed + s.id)   <- local to the call
-    for each of M paths: simulate T years, record real_final
+evaluate_scenario(s, M, seed):
+    create a random generator seeded with (seed + s.id)   <- local to the call
+    for each of M paths: simulate T years, compute real_final
     compute the statistics in section 4 and classify
 
 ## 7. Complexity
 
 - Time: O(N * M * T)
-- Space: O(N) for scenarios and results (O(M) temporary per scenario)
+- Space: O(N) for scenarios and results (O(1) temporary per scenario, since
+  running statistics are updated per path and paths are not stored)
 
 ## 8. Why scenarios are independent (to be confirmed by Person 2)
 
 - Iteration i reads only scenarios[i] and writes only results[i].
 - Each scenario uses its own random generator seeded from its id, so the
   result does not depend on thread count, thread order or scheduling.
-- No shared variable is modified inside the loop.
+- evaluate_scenario() uses no global or shared variables.
 
 Caveat: std::normal_distribution is implementation-defined, so results are
-guaranteed identical only for the same compiler and machine. Sequential and
+guaranteed identical only for the same compiler and library. Sequential and
 parallel comparisons must use the same build setup.
 
-## 9. Program interface (our decision)
+## 9. Program interface and files (our decision)
 
-    ./sequential <N> <M> [seed] [--out results.csv]
+Files:
+- common/scenario.h        shared struct, generator, validation, evaluate_scenario(), classification
+- sequential/sequential.cpp   sequential driver (reference)
+- sequential/test_sequential.cpp   basic correctness tests (17 checks)
+- parallel/parallel.cpp    parallel driver (must call the same evaluate_scenario())
+
+Build and run (from the repository root):
+
+    g++ -O2 -std=c++17 -Wall -Wextra sequential/sequential.cpp -o seq_run.exe
+    .\seq_run.exe <N> <M> [seed] [--out results\file.csv]
+
+    g++ -O2 -std=c++17 -Wall -Wextra sequential/test_sequential.cpp -o test_sequential.exe
+    .\test_sequential.exe
 
 - Scenarios are generated inside the program from the seed (no large input files).
-- Printed output: N, M, seed, counts per class, mean score, evaluation time (seconds).
-- Optional per-scenario CSV: id, mean_real_final, profit, ROI, annual_real_return,
-  prob_loss, score, class.
+- Default seed is 12345.
+- Printed output: N, M, seed, counts per class, mean score, sum of mean finals,
+  evaluation time (seconds).
+- Optional per-scenario CSV: id, mean_real_final, profit, roi, annual_real_return,
+  prob_loss, score, class (17 significant digits, so files can be compared exactly).
 - Timing covers only the evaluation loop (std::chrono::steady_clock).
 
-## 10. Open items
+## 10. Experiment settings
 
-- M (paths per scenario): to be chosen by measurement so the largest N
-  finishes in a reasonable time.
-- Input sizes N: to be chosen after measuring (starting guess 1k to 1M).
+- M (paths per scenario): M = 100, chosen from measured sequential timings.
+  Time per path stayed almost constant for M = 50 to 500 (N = 10,000), and
+  one run at N = 1,000,000 took about 52 s on the author's machine
+  (Intel i5-10210U, 4 cores / 8 threads, 8 GB RAM, g++ 13.2 MinGW).
+  To be confirmed by the team.
+- Input sizes N: starting guess 1,000 to 1,000,000; final values to be chosen
+  from measurements.
 - Thread counts: 1, 2, 4, 8 (to be confirmed on the machine used for results).
+- Final performance results must come from repeated runs on one chosen machine
+  (Person 3); the early timings above are single measurements only.
+
+## 11. Implementation notes (sequential version)
+
+- Score is undefined when stdev = 0 (risk-free scenario): we set score = 0.
+- A path counts as a loss only if real_final < P * (1 - 1e-12), so floating-point
+  rounding cannot mark an exact break-even scenario as a loss.
+- Adding the yearly log-returns and taking one exp per path is mathematically
+  identical to multiplying the yearly factors in section 4, and cheaper.
+- Evaluation code is shared in common/scenario.h; the parallel version must
+  call the same evaluate_scenario() function.
+- Monte Carlo with M = 100 gives noisy per-scenario statistics, so individual
+  classifications are approximate. Sequential and parallel runs use the same
+  random streams, so they should produce identical results.
 
 ## Approvals
 
