@@ -17,10 +17,6 @@ results/*.csv
 !results/benchmark_threads.csv
 !results/benchmark_schedule.csv
 
-# Graph images are regenerated from the CSVs, so only keep them
-# if your teacher wants them in the repo (remove this line if so).
-results/graphs/
-
 # Throwaway test files
 omp_check.cpp
 
