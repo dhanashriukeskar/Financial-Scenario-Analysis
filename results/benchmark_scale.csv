@@ -1,0 +1,13 @@
+Experiment,Scenarios,Mode,Threads,Schedule,MedianTime,Speedup,EfficiencyPct,Recommended,Acceptable,Rejected
+scale,100,Sequential,1,NA,0.015594,1.0000,100.00,32,18,50
+scale,100,Parallel,8,static,0.004141,3.7661,47.08,32,18,50
+scale,1000,Sequential,1,NA,0.176033,1.0000,100.00,336,207,457
+scale,1000,Parallel,8,static,0.029706,5.9258,74.07,336,207,457
+scale,5000,Sequential,1,NA,0.670556,1.0000,100.00,1658,1063,2279
+scale,5000,Parallel,8,static,0.131998,5.0801,63.50,1658,1063,2279
+scale,10000,Sequential,1,NA,1.081042,1.0000,100.00,3333,2102,4565
+scale,10000,Parallel,8,static,0.265394,4.0734,50.92,3333,2102,4565
+scale,50000,Sequential,1,NA,5.429856,1.0000,100.00,17097,10336,22567
+scale,50000,Parallel,8,static,1.269995,4.2755,53.44,17097,10336,22567
+scale,100000,Sequential,1,NA,10.698849,1.0000,100.00,33903,20752,45345
+scale,100000,Parallel,8,static,2.631627,4.0655,50.82,33903,20752,45345

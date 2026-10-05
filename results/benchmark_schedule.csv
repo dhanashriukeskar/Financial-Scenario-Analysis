@@ -1,0 +1,4 @@
+Experiment,Scenarios,Mode,Threads,Schedule,MedianTime,Speedup,EfficiencyPct,Recommended,Acceptable,Rejected
+schedule,10000,Parallel,8,static,0.227398,4.8766,60.96,3333,2102,4565
+schedule,10000,Parallel,8,dynamic,0.272288,4.0726,50.91,3333,2102,4565
+schedule,10000,Parallel,8,guided,0.265851,4.1712,52.14,3333,2102,4565

@@ -1,0 +1,6 @@
+Experiment,Scenarios,Mode,Threads,Schedule,MedianTime,Speedup,EfficiencyPct,Recommended,Acceptable,Rejected
+threads,10000,Sequential,1,NA,1.120088,1.0000,100.00,3333,2102,4565
+threads,10000,Parallel,1,static,1.115225,1.0044,100.44,3333,2102,4565
+threads,10000,Parallel,2,static,0.606436,1.8470,92.35,3333,2102,4565
+threads,10000,Parallel,4,static,0.406853,2.7531,68.83,3333,2102,4565
+threads,10000,Parallel,8,static,0.270914,4.1345,51.68,3333,2102,4565
