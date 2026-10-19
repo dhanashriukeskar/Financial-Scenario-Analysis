@@ -1,8 +1,13 @@
 # Project Report
 
-Use this folder for the final project report and supporting material.
+`Financial_Scenario_Analysis_Final_Report.docx` is the final report: sequential
+and OpenMP parallel algorithms, correctness verification, and the analysis of
+time, speedup and efficiency for different numbers of scenarios, threads and
+schedules.
 
-Suggested report sections:
+Other file: `llm_usage_log.csv` (LLM usage log).
+
+## Report sections (outline)
 1. Problem definition
 2. Objectives
 3. Scenario representation and evaluation criteria

@@ -27,8 +27,10 @@ Financial-Scenario-Analysis/
 ├── benchmark/    benchmark.cpp (scale, threads, schedule experiments)
 ├── data/         input data notes (scenarios are generated from a fixed seed)
 ├── results/      final benchmark CSVs and graphs
-├── report/       report and LLM usage log
+├── report/       final report (.docx) and LLM usage log
 ├── docs/         project_notes.md
+├── build.sh, run_demo.sh, run_demo.bat   one-step build and demo run
+├── RUN_INSTRUCTIONS.md                   how to run every program
 └── README.md
 ```
 
@@ -73,6 +75,11 @@ only, and each scenario uses its own random generator seeded with
 critical section.
 verify/verify.cpp also demonstrates `reduction(+:...)` for class counts and
 sums.
+
+## Quick start
+Run `bash run_demo.sh` (Linux/macOS/MSYS2) or `.\run_demo.bat` (Windows PowerShell) to build
+everything and run the sequential and parallel programs with 1, 2, 4 and 8
+threads. See RUN_INSTRUCTIONS.md.
 
 ## Compilation
 Run from the repository root.

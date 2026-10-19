@@ -1,15 +1,14 @@
 # Sequential Implementation
 
-This folder contains the sequential version of the financial scenario evaluation system.
+`sequential.cpp` evaluates N financial scenarios one after another on a single
+thread using `evaluate_scenario()` from `common/scenario.h`. It is the baseline
+(Ts) for speedup and efficiency, and the reference for checking the parallel version.
 
-## Status
+`test_sequential.cpp` has 17 unit tests (edge cases, determinism, classification).
 
-Implementation pending finalization of:
-- scenario fields
-- evaluation criteria
-- algorithm
-- input/output format
+## Build and run (from the repository root)
 
-## Expected File
-
-`sequential.cpp`
+    g++ -O2 -std=c++17 -Wall -Wextra sequential/sequential.cpp -o sequential
+    g++ -O2 -std=c++17 -Wall -Wextra sequential/test_sequential.cpp -o test_sequential
+    ./sequential <N> <M> [seed] [--out file.csv]
+    ./test_sequential

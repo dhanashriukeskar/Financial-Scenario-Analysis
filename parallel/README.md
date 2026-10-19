@@ -1,13 +1,16 @@
-# Parallel Implementation
+# Parallel Implementation (OpenMP)
 
-This folder contains the parallel version of the financial scenario evaluation system.
+`parallel.cpp` uses the same `evaluate_scenario()` as the sequential version and
+replaces only the loop with `#pragma omp parallel for schedule(runtime)`.
+The number of threads and the schedule (static, dynamic or guided) are command-line
+arguments, so no recompiling is needed to test 1, 2, 4 or 8 threads.
 
-The team will select and justify the appropriate parallel programming model
-(OpenMP, MPI, CUDA, or a suitable combination) based on the finalized algorithm.
+## Build and run (from the repository root)
 
-## Status
+    g++ -O2 -std=c++17 -Wall -Wextra -fopenmp parallel/parallel.cpp -o parallel
+    ./parallel <N> <M> <threads> <static|dynamic|guided> [seed] [--out file.csv]
 
-Implementation pending finalization of:
-- sequential algorithm
-- parallelization strategy
-- input/output format
+Example: `./parallel 10000 200 8 static`
+
+OpenMP was chosen because scenarios are independent and the target machine is a
+single shared-memory CPU (see the main README).

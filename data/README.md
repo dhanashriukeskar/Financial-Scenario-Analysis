@@ -1,14 +1,10 @@
 # Input / Test Data
 
-This folder will contain the input datasets used for experiments.
+No input file is needed. Scenarios are generated inside the program from a fixed
+seed (default 12345), so the sequential and parallel programs always evaluate the
+same scenarios. Dataset size is chosen with the command-line argument N.
 
-Planned dataset sizes should include multiple scenario counts so that the
-team can investigate how execution time changes with input size.
+`sample_scenarios.csv` is a sample of the per-scenario output (N = 10, M = 200,
+seed 12345), created with:
 
-Example sizes to be decided by the team:
-- small
-- medium
-- large
-- very large
-
-The exact financial scenario format must be finalized before generating the datasets.
+    ./sequential 10 200 --out data/sample_scenarios.csv
