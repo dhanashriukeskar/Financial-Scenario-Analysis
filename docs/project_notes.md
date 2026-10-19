@@ -1,6 +1,6 @@
 # Project Notes - Q19 Financial Scenario Analysis
 
-Status: DRAFT v2 - sequential version implemented; awaiting approval from all 4 team members.
+Design notes for the sequential and OpenMP parallel implementations.
 
 ## 1. Problem (official)
 
@@ -83,7 +83,7 @@ evaluate_scenario(s, M, seed):
 - Space: O(N) for scenarios and results (O(1) temporary per scenario, since
   running statistics are updated per path and paths are not stored)
 
-## 8. Why scenarios are independent (to be confirmed by Person 2)
+## 8. Why scenarios are independent
 
 - Iteration i reads only scenarios[i] and writes only results[i].
 - Each scenario uses its own random generator seeded from its id, so the
@@ -120,16 +120,13 @@ Build and run (from the repository root):
 
 ## 10. Experiment settings
 
-- M (paths per scenario): M = 100, chosen from measured sequential timings.
-  Time per path stayed almost constant for M = 50 to 500 (N = 10,000), and
-  one run at N = 1,000,000 took about 52 s on the author's machine
-  (Intel i5-10210U, 4 cores / 8 threads, 8 GB RAM, g++ 13.2 MinGW).
-  To be confirmed by the team.
-- Input sizes N: starting guess 1,000 to 1,000,000; final values to be chosen
-  from measurements.
-- Thread counts: 1, 2, 4, 8 (to be confirmed on the machine used for results).
-- Final performance results must come from repeated runs on one chosen machine
-  (Person 3); the early timings above are single measurements only.
+- M (paths per scenario): M = 200 for the final benchmarks.
+- Input sizes N: 100 to 100,000 for the scenario-count experiment; N = 10,000
+  for the thread-count and scheduling experiments.
+- Thread counts: 1, 2, 4, 8.
+- Final results are the median of repeated runs (one discarded warm-up, then 7
+  timed runs; 9 for the schedule test) on one machine: Intel i5-10210U,
+  4 cores / 8 threads, 8 GB RAM, g++ 13.2 MinGW.
 
 ## 11. Implementation notes (sequential version)
 
@@ -140,13 +137,6 @@ Build and run (from the repository root):
   identical to multiplying the yearly factors in section 4, and cheaper.
 - Evaluation code is shared in common/scenario.h; the parallel version must
   call the same evaluate_scenario() function.
-- Monte Carlo with M = 100 gives noisy per-scenario statistics, so individual
+- Monte Carlo with a small M gives noisy per-scenario statistics, so individual
   classifications are approximate. Sequential and parallel runs use the same
   random streams, so they should produce identical results.
-
-## Approvals
-
-- [ ] Person 1 - Dhanashri
-- [ ] Person 2
-- [ ] Person 3
-- [ ] Person 4

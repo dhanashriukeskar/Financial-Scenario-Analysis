@@ -190,22 +190,3 @@ guided 0.266 s.
 Test smaller N to find a crossover; larger M; chunk-size tuning for
 dynamic/guided; hardware counters to identify bottlenecks; testing on a
 machine with more physical cores.
-
-## Team Workflow
-Each member works on a separate branch and pushes to GitHub.
-Do not commit executables or build folders.
-
-## Required Deliverables
-- Project report
-- Sequential source code (sequential/)
-- Parallel source code (parallel/)
-- Input/test data (generated from a fixed seed; data/ holds a sample)
-- Performance results and graphs (results/)
-- README with compilation and execution instructions
-- LLM Usage Log (report/)
-- Individual contribution statement
-
-## Important
-All team members must understand the overall algorithm, parallelization
-strategy, implementation, and performance results for the final
-presentation/viva.
